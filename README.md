@@ -1,2 +1,2 @@
 # kNN-Seminar
-Gruppenmitglieder: Marcel Koriath
+Gruppenmitglieder: Marcel Koriath, Lars..., Justin...
