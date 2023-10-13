@@ -1,6 +1,12 @@
 public class Neuron {
-    Double[] weight;
-    double bias; // muss noch initialisiert werden
+    private static int nid;
+    private double[] weight;
+    private double bias; // muss noch initialisiert werden
+    public Neuron(){
+        this.nid = nid;
+        this.weight = ;
+        nid++;
+    }
     public double compute(Double[] input){
         double result = 0;
         for(int i = 0; i < input.length; i++) {
