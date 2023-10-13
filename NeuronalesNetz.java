@@ -5,7 +5,7 @@ public class NeuronalesNetz {
     int hidden;
     int output;
     Neuron layer[][];
-    double weights[][][]; //1. Teife - 1; 2. VON; 3. ZU;
+    private double weights[][][]; //1. Teife - 1; 2. VON; 3. ZU;
     double weightsIH[][];
     double weightsHO[][];
 

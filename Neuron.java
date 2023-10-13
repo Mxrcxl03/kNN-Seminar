@@ -4,7 +4,7 @@ public class Neuron {
     private double bias; // muss noch initialisiert werden
     public Neuron(){
         this.nid = nid;
-        this.weight = ;
+        this.weight = NeuronalesNetz.getWeights();
         nid++;
     }
     public double compute(Double[] input){
