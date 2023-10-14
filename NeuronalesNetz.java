@@ -18,7 +18,17 @@ public class NeuronalesNetz {
         Random random = new Random();
         this.weightsIH = new double[input][hidden];
         this.weightsHO = new double[hidden][output];
-        double g = random.nextGaussian();
+        weights = new double[2][][];
+        weights[0] = weightsIH;
+        weights[1] = weightsHO;
+
+        for (int i = 0; i < weights.length; i++) {
+            for (int j = 0; j < weights[i].length; j++) {
+                for (int k = 0; k < weights[i][j].length; k++) {
+                    weights[i][j][k] = random.nextDouble() * 2 - 1;
+                }
+            }
+        }
     }
     public double[][][] getWeights() {
         return weights;
