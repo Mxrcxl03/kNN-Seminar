@@ -1,6 +1,7 @@
 public class Neuron {
     private static int nid;
-    private double[] weight;
+    private double value;
+    private double weight[];
     public Neuron(){
         this.nid = nid;
         nid++;
@@ -17,5 +18,17 @@ public class Neuron {
     }
     private double tanh(double x) {
         return (Math.exp(x)-Math.exp(-x)/Math.exp(x)+Math.exp(-x));
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setWeight(double[] weight) {
+        this.weight = weight;
     }
 }
