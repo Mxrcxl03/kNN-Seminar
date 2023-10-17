@@ -5,13 +5,16 @@ public class NeuronalesNetz {
     int hidden;
     int output;
     Neuron layer[][];
-     double weights[][][]; //1. Tiefe - 1; 2. VON; 3. ZU;
+    double weights[][][]; //1. Tiefe - 1; 2. VON; 3. ZU;
 
-
-    public void init(int numIHO[]) { // Jeweilige Anzahlen an Neuronen
+    public void initNetz(int numIHO[]) { // Jeweilige Anzahlen an Neuronen
         this.input = numIHO[0];
         this.hidden = numIHO[1];
         this.output = numIHO[2];
+        this.layer = new Neuron[3][];
+        for(int i = 0; i < layer.length; i++){
+            this.layer[i] = new Neuron[numIHO[i]];
+        }
     }
     public void initGewichteRandom(){
         Random random = new Random();
