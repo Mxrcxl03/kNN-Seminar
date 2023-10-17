@@ -10,8 +10,8 @@ public class NeuronalesNetz {
     public void initNetz(int numIHO[]) { // Jeweilige Anzahlen an Neuronen
         this.input = numIHO[0];
         this.hidden = numIHO[1];
-        this.output = numIHO[2];
-        this.layer = new Neuron[3][];
+        this.output = numIHO[numIHO.length-1];
+        this.layer = new Neuron[numIHO.length][];
         for(int i = 0; i < layer.length; i++){
             this.layer[i] = new Neuron[numIHO[i]];
         }
@@ -19,11 +19,13 @@ public class NeuronalesNetz {
         for(int i = 0; i < layer[0].length; i++){
             this.layer[0][i] = new InputNeuron(i);
         }
-        for(int i = 0; i < layer[1].length; i++){
-            this.layer[1][i] = new HiddenNeuron(i);
+        for(int k = 1; k < layer.length-1; k++) {
+            for (int i = 0; i < layer[k].length; i++) {
+                this.layer[k][i] = new HiddenNeuron(i);
+            }
         }
-        for(int i = 0; i < layer[2].length; i++){
-            this.layer[2][i] = new OutputNeuron(i);
+        for(int i = 0; i < layer[layer.length-1].length; i++){
+            this.layer[layer.length-1][i] = new OutputNeuron(i);
         }
         System.out.println("1");
     }
@@ -31,7 +33,7 @@ public class NeuronalesNetz {
         Random random = new Random();
         double[][] weightsIH = new double[input][hidden];
         double[][] weightsHO = new double[hidden][output];
-        weights = new double[2][][];
+        weights = new double[layer.length-1][][];
         weights[0] = weightsIH;
         weights[1] = weightsHO;
         for (int i = 0; i < weights.length; i++) {
