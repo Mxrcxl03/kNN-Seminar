@@ -1,2 +1,2 @@
 # kNN-Seminar
-Gruppenmitglieder: Marcel Koriath, Lars..., Justin...
+Gruppenmitglieder: Marcel Koriath, Lars Niederweis, Justin Emmerich
