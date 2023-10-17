@@ -15,6 +15,17 @@ public class NeuronalesNetz {
         for(int i = 0; i < layer.length; i++){
             this.layer[i] = new Neuron[numIHO[i]];
         }
+
+        for(int i = 0; i < layer[0].length; i++){
+            this.layer[0][i] = new InputNeuron(i);
+        }
+        for(int i = 0; i < layer[1].length; i++){
+            this.layer[1][i] = new HiddenNeuron(i);
+        }
+        for(int i = 0; i < layer[2].length; i++){
+            this.layer[2][i] = new OutputNeuron(i);
+        }
+        System.out.println("1");
     }
     public void initGewichteRandom(){
         Random random = new Random();
@@ -30,6 +41,34 @@ public class NeuronalesNetz {
                 }
             }
         }
+        System.out.println("1");
+    }
+    public void computeNN(double[] inputValue){
+        for(int i = 0; i < inputValue.length; i++){
+            ((InputNeuron) this.layer[0][i]).setValue(inputValue[i]);
+        }
+
+        for(int i = 0; i < layer[1].length; i++){
+            double sum = 0;
+            for(int k = 0; k < layer[0].length; k++){
+                sum += this.layer[0][k].getValue() * weights[0][k][i];
+            }
+            this.layer[1][i].value = sigmoid(sum);
+        }
+        for(int i = 0; i < layer[2].length; i++){
+            double sum = 0;
+            for(int k = 0; k < layer[1].length; k++){
+                sum += this.layer[1][k].getValue() * weights[1][k][i];
+            }
+            this.layer[2][i].value = sigmoid(sum);
+            System.out.println(this.layer[2][i].value);
+        }
+    }
+    private double sigmoid(double x) {
+        return 1 / (1 + Math.exp(-x));
+    }
+    private double tanh(double x) {
+        return (Math.exp(x)-Math.exp(-x)/Math.exp(x)+Math.exp(-x));
     }
 
 }
