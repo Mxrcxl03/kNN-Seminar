@@ -1,10 +1,8 @@
-public class Neuron {
-    private static int nid;
-    private double value;
+public abstract class Neuron extends NeuronalesNetz{
+    protected double value;
     private double weight[];
     public Neuron(){
-        this.nid = nid;
-        nid++;
+        this.value = 0;
     }
     public double compute(double[] input){
         double result = 0;
@@ -20,15 +18,6 @@ public class Neuron {
         return (Math.exp(x)-Math.exp(-x)/Math.exp(x)+Math.exp(-x));
     }
 
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setWeight(double[] weight) {
-        this.weight = weight;
-    }
+    public abstract double getValue();
+    public abstract int getNID();
 }

@@ -31,30 +31,5 @@ public class NeuronalesNetz {
             }
         }
     }
-    public void initLayer(double[] inArray){
-        if(input > hidden && input > output){
-            this.layer = new Neuron[input][2];
-        } else if(hidden > output){
-            this.layer = new Neuron[hidden][2];
-        } else {
-            this.layer = new Neuron[output][2];
-        }
-        for(int i = 0; i < input; i++){
-            this.layer[0][i].setValue(inArray[i]);
-        }
-        for (int i = 1; i < layer.length; i++) {
-            for (int j = 0; j < layer[i].length; j++) {
-                double[] arr = new double[layer[i].length];
-                for(int k = i-1; k < layer[i-1].length; k++){
-                    arr[k] = layer[i][j].getValue();
-                }
-                double[] arr2 = new double[weights[0].length];
-                this.layer[i][j].setWeight();
-                this.layer[i][j].compute(arr);
-            }
-        }
-    }
-    public double[][][] getWeights() {
-        return weights;
-    }
+
 }
