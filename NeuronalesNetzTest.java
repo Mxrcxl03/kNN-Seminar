@@ -9,7 +9,7 @@ public class NeuronalesNetzTest {
     Neuron neuron3;
     Neuron neuron4;
 
-    int[] netzkonf1 = {5, 8, 2};
+    int[] netzkonf1 = {5, 2, 2};
     int[] netzkonf2 = {5, 8, 4, 2};
     int[] netzkonf3 = {4, 1};
     int[] netzkonf4 = {4, 2};
@@ -17,12 +17,12 @@ public class NeuronalesNetzTest {
     double[] input1 = {2.0, 1.0, 1.1, -3, 5};
     double[] input2 = {5.0, 2.0, 3.0, 2.0}; // Für netzkonf3 und netzkonf4
 
-    double[][] gewichte1 = {{0.5}, {-0.2}, {0.1}, {0.2}}; // Für netzkonf3 [4][1]
-    double[][] gewichte2 = {{0.5, 0.2}, {-0.3, 0.1}, {0.1, 0.7}, {-0.6, 0.3}}; // Für netzkonf4 [4][2]
+
+    double[][][] gewichte3 = {{{0.5, 0.2}, {-0.3, 0.1}, {0.1, 0.7}, {-0.6, 0.3}, {0.5, 0.2}},{{0.5, 0.2}, {-0.2, 0.7}}};
 
     NeuronalesNetz.setActivationFunction(func1); // Setzen der Aktivierungsfunktion "Identity"
 
-    NeuronalesNetz nn1 = new NeuronalesNetz();
+    /*NeuronalesNetz nn1 = new NeuronalesNetz();
     nn1.initNetz(netzkonf1);
     nn1.initGewichteRandom();
     nn1.computeNN(input1);
@@ -41,7 +41,7 @@ public class NeuronalesNetzTest {
     System.out.println(neuron3.getNID()); // Output Neutron 1
 
 
-
+/*
     /*nn1.initGewichteRandom();
     for (int i = 0; i < 2; i++) {
       System.out.println("Von Layer " + i + " zu " + (i+1));
@@ -53,7 +53,7 @@ public class NeuronalesNetzTest {
       System.out.println("");
     }*/
 
-    NeuronalesNetz nn2 = new NeuronalesNetz();
+   /* NeuronalesNetz nn2 = new NeuronalesNetz();
     nn2.initNetz(netzkonf2);
     /*neuron1 = nn2.layer[0][2];
     neuron2 = nn2.layer[1][6];
@@ -64,15 +64,15 @@ public class NeuronalesNetzTest {
     System.out.println(neuron3.getNID()); // 3
     System.out.println(neuron4.getNID()); // 1*/
 
-    NeuronalesNetz nn3 = new NeuronalesNetz();
+   /* NeuronalesNetz nn3 = new NeuronalesNetz();
     nn3.initNetz(netzkonf3);
     nn3.initGewichte(gewichte1);
-    nn3.computeNN(input2);
+    nn3.computeNN(input2);*/
 
-    NeuronalesNetz nn4 = new NeuronalesNetz();
+    /*NeuronalesNetz nn4 = new NeuronalesNetz();
     nn4.initNetz(netzkonf4);
     nn4.initGewichte(gewichte2);
-    nn4.computeNN(input2);
+    nn4.computeNN(input2);*/
 
     /* Fehler absichtlich verursacht
     int[] netzkonf5 = {5};
@@ -81,5 +81,11 @@ public class NeuronalesNetzTest {
     err1.initNetz(netzkonf5);
     NeuronalesNetz err2 = new NeuronalesNetz();
     err2.initNetz(netzkonf6);*/
+    NeuronalesNetz nn4 = new NeuronalesNetz();
+    nn4.initNetz(netzkonf1);
+    nn4.initGewichte(gewichte3);
+    nn4.computeNN(input1);
   }
+
+
 }

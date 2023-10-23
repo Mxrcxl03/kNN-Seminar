@@ -15,7 +15,7 @@ public class CSVReader {
             while ((line = br.readLine()) != null){
                 String[] values = line.split(";");
                 //System.out.println(line); // Zeigt alles an
-                System.out.println(values[0]); // Zeigt in jeder Reihe nur die erste Ziffer an
+                System.out.println(values[1]); // Zeigt in jeder Reihe nur die erste Ziffer an
             }
         } catch (IOException e) {
             e.printStackTrace();

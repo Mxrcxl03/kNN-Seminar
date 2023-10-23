@@ -98,29 +98,26 @@ public class NeuronalesNetz {
   }
 
   // Initialisierung von Gewichten im neuronalen Netz mit eingelesen Werten
-  public void initGewichte(double[][] gewichte) {
+  public void initGewichte(double[][][] gewichte) {
     // Überprüfen, ob die Anzahl der eingelesenen Gewichte den erwarteten Verbindungen im Netzwerk entspricht
-    System.out.println(layer[0].length);
-    System.out.println(gewichte[0].length);
-    System.out.println(layer.length);
-    System.out.println(gewichte.length);
-    for(int i = 0; i < gewichte.length; i++) {
-      if (gewichte[i].length != getLayerCount() - 1) {
-        throw new RuntimeException("Zu viele Layer an Gewichten als Layer an Neuronen da sind.");
-      }
+    this.weights = new double[getLayerCount() - 1][][];
+    int expectedConnections = 0;
+    for (int i = 0; i < getLayerCount() - 1; i++) {
+      expectedConnections += (layer[i].length) * layer[i + 1].length;
     }
-    if(layer[weightSize].length != gewichte.length){
+
+    int actualConnections = 0;
+    for (int i = 0; i < gewichte.length; i++) {
+        actualConnections += gewichte[i][0].length * gewichte[i].length;
+    }
+
+    if (actualConnections != expectedConnections) {
       throw new RuntimeException("Die Anzahl der eingelesenen Gewichte entspricht nicht der erwarteten Anzahl an Verbindungen.");
     }
-    this.weights = new double[weightSize+1][gewichte.length][gewichte[0].length];
-    for(int i = 0; i < gewichte.length; i++) {
-      for(int j = 0; j < gewichte[0].length; j++) {
-        this.weights[weightSize][i][j] = gewichte[i][j];
-        //System.out.print(this.weights[0][i][j] + " ");
-      }
-      //System.out.println();
+    if(layer.length != gewichte.length+1){
+      throw new RuntimeException("Die Anzahl der eingelesenen Gewichte entspricht nicht der erwarteten Anzahl an Verbindungen.");
     }
-    weightSize++;
+    this.weights = gewichte;
     //TODO Check, ob die Anzahl eingelesene Gewichtswerte alle Verbindungen (IN * L1H + L1H * L2H...) abdecken kann - RuntimeException
   }
 
