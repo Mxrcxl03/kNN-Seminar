@@ -18,7 +18,7 @@ public class NeuronalesNetzTest {
     double[] input2 = {5.0, 2.0, 3.0, 2.0}; // Für netzkonf3 und netzkonf4
 
 
-    double[][][] gewichte3 = {{{0.5, 0.2}, {-0.3, 0.1}, {0.1, 0.7}, {-0.6, 0.3}, {0.5, 0.2}},{{0.5, 0.2}, {-0.2, 0.7}}};
+    double[][][] gewichte3 = {{{0.5, 0.2}, {-0.3, 0.1}, {0.1, 0.7}, {-0.6, 0.3}, {0.5, 0.2}, {-0.3, 0.1}},{{0.5, 0.2}, {-0.2, 0.7}, {-0.3, 0.1}}};
 
     NeuronalesNetz.setActivationFunction(func1); // Setzen der Aktivierungsfunktion "Identity"
 

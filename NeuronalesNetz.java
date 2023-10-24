@@ -48,6 +48,17 @@ public class NeuronalesNetz {
       this.layer[netzkonf.length - 1][i] = new OutputNeuron(i);
     }
 
+    /*    int layerSize = netzkonf[0] + 1;  // Add 1 for bias neuron
+    this.layer[0] = new Neuron[layerSize];
+    for (int j = 0; j < layerSize; j++) {
+      if (j < netzkonf[0]) {
+        this.layer[0][j] = new InputNeuron(j);
+      } else {
+        this.layer[0][j] = new BiasNeuron();
+      }
+    } */
+
+
     // Sollte die Anzahl der Elemente in Netzkonfig = 3 sein -> 3-Layer (Input[0] - Hidden[1] - Output[2])
     if(netzkonf.length == 3) {
       for(int i = 0; i < getHiddenNeuronCount(); i++) {
