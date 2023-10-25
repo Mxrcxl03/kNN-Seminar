@@ -1,16 +1,18 @@
-public class BiasNeuron extends Neuron{
+public class BiasNeuron extends Neuron {
+    // Wert eines Bias-Neuron = 1
+    private static final double biasValue = 1;
+
+    // biasNID gibt Layer an, auf dem das Bias-Neuron liegt
     private int biasNID;
 
-    public BiasNeuron() { super(); }
-
-    public BiasNeuron(int nid){
+    public BiasNeuron() {
         super();
-        this.biasNID = nid;
+        this.value = biasValue;
+        this.biasNID = 0;
     }
 
-    @Override
-    public double getValue() {
-        return this.value;
+    public static double getBiasValue() {
+        return biasValue;
     }
 
     @Override

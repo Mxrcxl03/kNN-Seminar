@@ -4,28 +4,32 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>702</x>
-      <y>576</y>
-      <w>144</w>
-      <h>117</h>
+      <x>432</x>
+      <y>369</y>
+      <w>270</w>
+      <h>171</h>
     </coordinates>
     <panel_attributes>/Neuron/
 -
 # value: double
+# activationFunction: String
 -
 + Neuron()
 
-/+ getValue(): double/
-/+ getNID(): int/</panel_attributes>
+/+ getNID(): int/
+
++ getValue(): double
++ getActivationFunction(): String
++ setActivationFunction(function: String): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>468</x>
-      <y>810</y>
-      <w>207</w>
-      <h>153</h>
+      <x>252</x>
+      <y>756</y>
+      <w>198</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>InputNeuron
 -
@@ -34,19 +38,17 @@
 + InputNeuron()
 + InputNeuron(nid: int)
 
-+ getValue(): double
 + getNID(): int
-
-+ setValue(value: double): double</panel_attributes>
++ setValue(value: double): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>927</x>
-      <y>810</y>
-      <w>207</w>
-      <h>153</h>
+      <x>630</x>
+      <y>756</y>
+      <w>153</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>OutputNeuron
 -
@@ -55,56 +57,46 @@
 + OutputNeuron()
 + OutputNeuron(nid: int)
 
-+ getValue(): double
 + getNID(): int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>585</x>
-      <y>45</y>
+      <x>360</x>
+      <y>27</y>
       <w>414</w>
-      <h>387</h>
+      <h>252</h>
     </coordinates>
     <panel_attributes>NeuronalesNetz
 -
-_- activationFunction: String_
-
 # layer: Neuron[ ][ ]
 // double[Ebene (1, 2)][von (untere)][zu (obere)]
 # weights: double[ ][ ][ ]
 -
 + initNetz(netzkonf: int[ ]): void
-
 + initGewichteRandom(): void
-+ initGewichteEingelesen(gewichte: double[ ]): void
++ initGewichte(gewichte: double[ ][ ][ ]): void
++ computeNN(input: double[ ]): void
 
-+ computeNN(inputValue: double[ ]): void
-+ computeActivationFunction(value: double): double
-
-+ getActivationFunction(): String
-+ setActivationFunction(function: String): void
-
+// Aktivierungsfunktionen
++ computeActivationFunction(value: double, output: Neuron): double
 + identity(value: double): double
-+ sigmoid(value: double): 
-+ tanh(value: double): 
++ logi(value: double): double
++ tanh(value: double): double
 
-// Ausgabe der Anzahl von Neuronen pro Layer
-+ getInputNeuronCount(): int
-+ getHiddenNeuronCount(): int
-+ getOutputNeuronCount(): int
+// Hilfsmethoden
 + getLayerCount(): int
-+ getHiddenLayerCount(): int</panel_attributes>
++ ausgabeOutput(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>693</x>
-      <y>810</y>
-      <w>207</w>
-      <h>153</h>
+      <x>468</x>
+      <y>756</y>
+      <w>153</w>
+      <h>144</h>
     </coordinates>
     <panel_attributes>HiddenNeuron
 -
@@ -113,170 +105,82 @@ _- activationFunction: String_
 + HiddenNeuron()
 + HiddenNeuron(nid: int)
 
-+ getValue(): double
 + getNID(): int</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLClass</id>
+    <id>Relation</id>
     <coordinates>
-      <x>1026</x>
-      <y>1044</y>
-      <w>216</w>
-      <h>171</h>
+      <x>558</x>
+      <y>270</y>
+      <w>27</w>
+      <h>117</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-ActivationFunction
--
-_+ activationValue: double_
-_+ ActivationIdentity: Identity_
-_+ ActivationSigmoid: Sigmoid_
--
-+ activation(value: double): double</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>531</y>
+      <w>135</w>
+      <h>243</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>522</x>
+      <y>531</y>
+      <w>27</w>
+      <h>243</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>585</x>
+      <y>531</y>
+      <w>90</w>
+      <h>243</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;250.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>981</x>
-      <y>1251</y>
-      <w>207</w>
-      <h>81</h>
+      <x>792</x>
+      <y>756</y>
+      <w>144</w>
+      <h>144</h>
     </coordinates>
-    <panel_attributes>Identity
+    <panel_attributes>BiasNeuron
 -
-+ activation(value: double): double
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1593</x>
-      <y>972</y>
-      <w>351</w>
-      <h>207</h>
-    </coordinates>
-    <panel_attributes>AktivierungsFunktion
--
-_-function: String_
--
-// Switch-Statement für jede Aktivierungsfunktion (default: Angabe aller Möglichkeiten)
-+ setFunction(funktion: String): void
+_- biasValue: double_
 
-// Auf Basis der Klassenvariablen function
-+ computeFunction(): double
-
-? Eigene Klasse oder Interface?
-+ id(value: double): double
-+ linear(value:double): double
-+ sigmoid(value:double): double
-+ tanh(value: double): double
-//Schwellenwert
-+ threshold(value: double, threshold: double?): double
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>765</x>
-      <y>423</y>
-      <w>27</w>
-      <h>171</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;170.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>576</x>
-      <y>684</y>
-      <w>162</w>
-      <h>144</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>160.0;10.0;10.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>765</x>
-      <y>684</y>
-      <w>27</w>
-      <h>144</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>810</x>
-      <y>684</y>
-      <w>171</w>
-      <h>144</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;140.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1071</x>
-      <y>1206</y>
-      <w>27</w>
-      <h>63</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1224</x>
-      <y>1251</y>
-      <w>207</w>
-      <h>81</h>
-    </coordinates>
-    <panel_attributes>Sigmoid
+- biasNID: int
 -
-+ activation(value: double): double
-</panel_attributes>
++ BiasNeuron()
+
++ getNID(): int
+_+ getBiasValue: double_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1197</x>
-      <y>1206</y>
-      <w>171</w>
-      <h>63</h>
+      <x>657</x>
+      <y>531</y>
+      <w>180</w>
+      <h>243</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1035</x>
-      <y>954</y>
-      <w>27</w>
-      <h>108</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>783</x>
-      <y>954</y>
-      <w>252</w>
-      <h>144</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;260.0;140.0</additional_attributes>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;250.0</additional_attributes>
   </element>
 </diagram>

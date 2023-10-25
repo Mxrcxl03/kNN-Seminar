@@ -14,14 +14,8 @@ public class InputNeuron extends Neuron {
   }
 
   // Setzen eines Wert für ein InputNeuron
-  public double setValue(double value) {
+  public void setValue(double value) {
     this.value = value;
-    return this.value;
-  }
-
-  @Override
-  public double getValue() {
-    return this.value;
   }
 
   @Override

@@ -2,14 +2,29 @@ public abstract class Neuron extends NeuronalesNetz {
   // Wert eines einzelnen Neurons
   protected double value;
 
-  // Standard-Konstruktor zum Initialisieren eines neuen Neurons mit dem Wert 0
+  // Aktivierungsfunktion des Neurons
+  protected String activationFunction;
+
+  // Standard-Konstruktor zum Initialisieren eines neuen Neurons mit dem Wert 0 und Aktivierungsfunktion "id"
   public Neuron() {
     this.value = 0;
+    this.activationFunction = "id";
   }
-
-  // getValue() für alle abgeleiteten Klassen (d.h. alle Arten von Neuronen) gelten
-  public abstract double getValue();
 
   // getNID() zum Auslesen der ID innerhalb eines Layers
   public abstract int getNID();
+
+  public double getValue() {
+    return this.value;
+  }
+
+  public String getActivationFunction() {
+    return this.activationFunction;
+  }
+
+  // Möglichkeiten: id, logi und tanh
+  public void setActivationFunction(String function) {
+    this.activationFunction = function;
+    //System.out.println("Aktivierungsfunktion auf: " + this.activationFunction + " geändert.");
+  }
 }

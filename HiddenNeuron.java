@@ -14,12 +14,6 @@ public class HiddenNeuron extends Neuron {
   }
 
   @Override
-  public double getValue() {
-    // Möglichkeit: Berechnung des Wertes mit Aktivierungsfunktion innerhalb dieser Funktion zu berechnen
-    return this.value;
-  }
-
-  @Override
   public int getNID() {
     return this.hiddenNID;
   }
