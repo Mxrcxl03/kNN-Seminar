@@ -1,6 +1,7 @@
 # kNN-Seminar
 Gruppenmitglieder: Marcel Koriath, Lars Niederweis, Justin Emmerich
-
+<br>
+<br>
 Updates vom 25.10.2023: <br>
 - Switch Aktivierungsfunktion anpassen + Methodenname ändern sigmoid -> log <br>
 - Aktivierungsfunktion an einzelne Neuronen hängen - nicht global <br>
