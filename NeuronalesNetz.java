@@ -96,19 +96,22 @@ public class NeuronalesNetz {
     this.weights = new double[getLayerCount() - 1][][];
 
     int expectedConnections = 0;
-    for (int i = 0; i < getLayerCount() - 1; i++) {
-      if (i == getLayerCount() - 2) {
-        expectedConnections += this.layer[i].length * this.layer[i + 1].length;
-        break;
+    if(getLayerCount() == 2) {
+      expectedConnections += (this.layer[0].length-1) * (this.layer[1].length);
+    } else {
+      for (int i = 0; i < getLayerCount() - 1; i++) {
+        if (i == getLayerCount() - 2) {
+          expectedConnections += this.layer[i].length * this.layer[i + 1].length;
+          break;
+        }
+        expectedConnections += (this.layer[i].length-1) * (this.layer[i + 1].length);
       }
-      expectedConnections += this.layer[i].length * (this.layer[i + 1].length - 1);
     }
-
     int actualConnections = 0;
     for (int i = 0; i < gewichte.length; i++) {
         actualConnections += gewichte[i][0].length * gewichte[i].length;
     }
-
+    System.out.println(actualConnections + " " + expectedConnections);
     if (actualConnections != expectedConnections) {
       throw new RuntimeException("Die Anzahl der eingelesenen Gewichte entspricht nicht der erwarteten Anzahl an Verbindungen.");
     }
@@ -141,6 +144,8 @@ public class NeuronalesNetz {
       // i = Neuron auf der oberen Schicht, j = Neuron auf der aktuellen Schicht
       for (int i = 0; i < this.layer[1].length; i++) {
         for (int j = 0; j < this.layer[0].length; j++) {
+          System.out.println(this.layer[0][j].getValue() + " " + this.weights[0][j][i]);
+          System.out.println(this.layer[0].length);
           sum += this.layer[0][j].getValue() * this.weights[0][j][i];
         }
         this.layer[1][i].value = computeActivationFunction(sum, this.layer[1][i]);
