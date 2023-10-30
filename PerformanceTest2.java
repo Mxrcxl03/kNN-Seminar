@@ -11,7 +11,7 @@ public class PerformanceTest2 {
         int[] netzkonf2 = {2, 1};
         double[] input2 = {1, 0};
         double[][][] gewichtsdatei2 = {
-                {{-0.1},{0.9}}
+                {{-0.1},{0.9}, {0.5}}
         };
         NeuronalesNetz n1 = new NeuronalesNetz();
         n1.initNetz(netzkonf2);
