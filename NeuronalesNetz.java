@@ -4,8 +4,8 @@
  * Außerdem können sowohl zufällige, als aber auch eingelese Gewichtswerte für das neuronale Netz festgelegt werden.
  *
  * @author Justin Emmerich, Marcel Koriath, Lars Niederweis
- * @since 16-10-2023
- * @version 1.2
+ * @since 11-10-2023
+ * @version 1.3
  */
 
 import java.util.Random;
@@ -18,10 +18,19 @@ public class NeuronalesNetz {
   // double[Netztiefe - 1][von (untere Ebene)][zu (oberer Ebene)]
   protected double[][][] weights;
 
+  // Gesamtfehler
+  private double error;
   // Initialisierung der Netztopologie mit selbst gewählten positiven Ganzzahlen
   public void initNetz(int[] netzkonf) {
+    // Netzkonfiguration mit nur einem Layer (oder kleiner) ungültig
     if(netzkonf.length < 2) {
       throw new RuntimeException("Netzkonfiguration ungültig, überprüfen Sie ihre Netztopologie (mind. 2 positive Ganzzahlen > 0)!");
+    }
+    // Anzahl der Neuronen pro Schicht = 0 (oder kleiner) -> ungültige Eingabe
+    for (int i = 0; i < netzkonf.length; i++) {
+      if (netzkonf[i] <= 0) {
+        throw new RuntimeException("Mindestens 1 Neuron pro Layer muss existieren. Netzkonfiguration prüfen! ");
+      }
     }
 
     // Festlegen der Anzahl der Zeilen (Layer-Anzahl) anhand der Anzahl von Elementen in der Netzkonfig
@@ -111,7 +120,6 @@ public class NeuronalesNetz {
     for (int i = 0; i < gewichte.length; i++) {
         actualConnections += gewichte[i][0].length * gewichte[i].length;
     }
-    System.out.println(actualConnections + " " + expectedConnections);
     if (actualConnections != expectedConnections) {
       throw new RuntimeException("Die Anzahl der eingelesenen Gewichte entspricht nicht der erwarteten Anzahl an Verbindungen.");
     }
@@ -135,7 +143,8 @@ public class NeuronalesNetz {
     for(int i = 0; i < input.length; i++) {
       // Neuron[0][i] ist immer ein InputNeuron für jedes i, da Input-Layer = 0.
       // Daher Casting auf InputNeuron ohne Bedenken möglich, um daraufhin Methode setValue() aufzurufen
-      ((InputNeuron) this.layer[0][i]).setValue(input[i]);
+      ((InputNeuron) this.layer[0][i]).net = input[i];
+      ((InputNeuron) this.layer[0][i]).setValue(computeActivationFunction(input[i], this.layer[0][i]));
     }
 
     // Vereinfachte Berechnung sollte es nur Input und Output-Layer geben (d.h. Layer = 2)
@@ -144,10 +153,9 @@ public class NeuronalesNetz {
       // i = Neuron auf der oberen Schicht, j = Neuron auf der aktuellen Schicht
       for (int i = 0; i < this.layer[1].length; i++) {
         for (int j = 0; j < this.layer[0].length; j++) {
-          System.out.println(this.layer[0][j].getValue() + " " + this.weights[0][j][i]);
-          System.out.println(this.layer[0].length);
           sum += this.layer[0][j].getValue() * this.weights[0][j][i];
         }
+        this.layer[1][i].net = sum;
         this.layer[1][i].value = computeActivationFunction(sum, this.layer[1][i]);
         //System.out.println(this.layer[1][i].value);
       }
@@ -163,19 +171,89 @@ public class NeuronalesNetz {
           for(int j = 0; j < layer[ebene-1].length; j++) {
             sum += this.layer[ebene-1][j].getValue() * this.weights[ebene-1][j][i];
           }
+          this.layer[ebene][i].net = sum;
           this.layer[ebene][i].value = computeActivationFunction(sum, this.layer[ebene][i]);
           //System.out.println(this.layer[ebene][i].getValue());
         }
       }
     }
-    ausgabeOutput();
+    //ausgabeOutput();
   }
 
-  // Ausgabe der berechneten Werte für alle Output-Neuronen
-  public void ausgabeOutput() {
-    for(int i = 0; i < this.layer[getLayerCount() - 1].length; i++) {
-      System.out.println(this.layer[getLayerCount() - 1][i].getValue());
+  // Lernmethode Backpropagation für einen Zyklus / Epoche
+  public void backpropagation(double[] input, double[] idealOutput, double lernrate) {
+    // Abbruch sollte Anzahl im input ungleich der Anzahl der Neuronen auf dem InputLayer sein
+    if ((this.layer[0].length - 1) != input.length) {
+      throw new RuntimeException("Anzahl Input Neuronen stimmen nicht mit der Anzahl der Zahlenwerte des Inputs überein.");
     }
+    // Abbruch sollte Anzahl im idealOutput ungleich der Anzahl der Neuronen auf dem OutputLayer sein
+    if (this.layer[getLayerCount() - 1].length != idealOutput.length) {
+      throw new RuntimeException("Anzahl Output Neuronen stimmen nicht mit der Anzahl der Zahlenwerte des idealOutputs überein.");
+    }
+
+    // Forward-Pass
+    computeNN(input);
+
+    // Fehlerbestimmung
+    this.error = computeError(idealOutput);
+    System.out.println("Fehlerwert vor Durchlauf: " + this.error);
+
+    // Backward-Pass
+    // Für nur 2 Ebenen
+    if (getLayerCount() == 2) {
+      for (int j = 0; j < this.layer[1].length; j++) {
+        double delta = idealOutput[j] - this.layer[1][j].getValue();
+        this.layer[1][j].delta = delta;
+        for (int i = 0; i < (this.layer[0].length - 1); i++) {
+          double deltaGewicht = lernrate * this.layer[0][i].getValue() * delta;
+          this.weights[0][i][j] += deltaGewicht;
+          System.out.println("Neues Gewicht von " + i + " zu " + j + " = " + this.weights[0][i][j] + " (" + (this.weights[0][i][j] - deltaGewicht) + ")");
+        }
+      }
+    } else {
+      // Für 3+ Ebenen
+      int outputLayer = getLayerCount() - 1;
+      for (int ebene = getLayerCount() - 1; ebene > 0; ebene--) {
+        // -1 für ein BIAS-Neuron pro Layer außer in der Output
+        int neuronAnzahlLayer = this.layer[ebene].length - 1;
+        if (ebene == outputLayer) {
+          neuronAnzahlLayer = this.layer[ebene].length;
+        }
+        for (int j = 0; j < neuronAnzahlLayer; j++) {
+          double ableitung = computeDerivativeAF(this.layer[ebene][j].getNet(), this.layer[ebene][j]);
+          double delta = 0;
+          if (ebene == outputLayer) {
+            // Für OutputNeuronen deltaTerm = f‘(netj) · (tj – oj)
+            delta = idealOutput[j] - this.layer[outputLayer][j].getValue();
+          } else {
+            // Für HiddenNeuronen deltaTerm
+            int neuronAnzahlLayerOut = this.layer[ebene + 1].length - 1;
+            if (ebene + 1 == outputLayer) {
+              neuronAnzahlLayerOut = this.layer[ebene + 1].length;
+            }
+            for (int k = 0; k < neuronAnzahlLayerOut; k++) {
+              delta += this.layer[ebene + 1][k].getDelta() * this.weights[ebene][j][k];
+            }
+          }
+          double deltaTerm = ableitung * delta;
+          // Speichern des berechneten Delta-Terms je nach Neuronenart für weitere Berechnungen
+          this.layer[ebene][j].delta = deltaTerm;
+          for (int i = 0; i < this.layer[ebene - 1].length - 1; i++) {
+            double deltaGewicht = lernrate * this.layer[ebene - 1][i].getValue() * deltaTerm;
+            this.weights[ebene - 1][i][j] += deltaGewicht;
+            System.out.println("Neues Gewicht von [" + (ebene - 1) + "][" + i + "] zu [" + ebene + "][" + j + "] = " + this.weights[ebene - 1][i][j] + " (" + (this.weights[ebene - 1][i][j] - deltaGewicht) + ")");
+          }
+        }
+      }
+    }
+  }
+
+  public double computeError(double[] idealOutput) {
+    double err = 0;
+    for (int i = 0; i < idealOutput.length; i++) {
+      err += Math.pow(idealOutput[i] - this.layer[getLayerCount() - 1][i].getValue(), 2);
+    }
+    return err * 0.5;
   }
 
   // Je nach festgelegter Aktivierungsfunktion (als String) ausführen unterschiedlicher Aktivierungsfunktionen
@@ -192,21 +270,58 @@ public class NeuronalesNetz {
     }
   }
 
+  // Für jede Aktivierungsfunktion, Berechnung der Ableitung
+  public double computeDerivativeAF(double value, Neuron output) {
+    switch (output.getActivationFunction()) {
+      case "id":
+        return derivativeIdentity(value);
+      case "logi":
+        return derivativeLogi(value);
+      case "tanh":
+        return derivativeTanh(value);
+      default:
+        throw new IllegalArgumentException("Ungültiger Name für die Aktivierungsfunktion!");
+    }
+  }
+
   // Aktivierungsfunktionen
   public double identity(double value) {
     return value;
   }
 
+  public double derivativeIdentity(double value) {
+    return 1;
+  }
+
+  // Logistische Funktion (Fermifunktion) mit Wertebreich [0, 1]
   public double logi(double value) {
     return 1 / (1 + Math.exp(-value));
   }
 
+  public double derivativeLogi(double value) {
+    double logi = logi(value);
+    return logi * (1 - logi);
+  }
+
+  // Tangens Hyperbolicus mit Wertebereich [-1, 1]
   public double tanh(double value) {
     return ((Math.exp(value)-Math.exp(-value))/(Math.exp(value)+Math.exp(-value)));
+  }
+
+  public double derivativeTanh(double value) {
+    double tanh = tanh(value);
+    return 1 - tanh * tanh;
   }
 
   // Anzahl der Layer im neuronalen Netz
   public int getLayerCount() {
     return this.layer.length;
+  }
+
+  // Ausgabe der berechneten Werte für alle Output-Neuronen
+  public void ausgabeOutput() {
+    for(int i = 0; i < this.layer[getLayerCount() - 1].length; i++) {
+      System.out.println(this.layer[getLayerCount() - 1][i].getValue());
+    }
   }
 }
