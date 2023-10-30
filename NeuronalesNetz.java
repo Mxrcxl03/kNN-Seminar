@@ -204,7 +204,7 @@ public class NeuronalesNetz {
       for (int j = 0; j < this.layer[1].length; j++) {
         double delta = idealOutput[j] - this.layer[1][j].getValue();
         this.layer[1][j].delta = delta;
-        for (int i = 0; i < (this.layer[0].length - 1); i++) {
+        for (int i = 0; i < this.layer[0].length; i++) {
           double deltaGewicht = lernrate * this.layer[0][i].getValue() * delta;
           this.weights[0][i][j] += deltaGewicht;
           System.out.println("Neues Gewicht von " + i + " zu " + j + " = " + this.weights[0][i][j] + " (" + (this.weights[0][i][j] - deltaGewicht) + ")");
@@ -228,7 +228,7 @@ public class NeuronalesNetz {
           } else {
             // Für HiddenNeuronen deltaTerm
             int neuronAnzahlLayerOut = this.layer[ebene + 1].length - 1;
-            if (ebene + 1 == outputLayer) {
+            if ((ebene + 1) == outputLayer) {
               neuronAnzahlLayerOut = this.layer[ebene + 1].length;
             }
             for (int k = 0; k < neuronAnzahlLayerOut; k++) {
@@ -238,10 +238,10 @@ public class NeuronalesNetz {
           double deltaTerm = ableitung * delta;
           // Speichern des berechneten Delta-Terms je nach Neuronenart für weitere Berechnungen
           this.layer[ebene][j].delta = deltaTerm;
-          for (int i = 0; i < this.layer[ebene - 1].length - 1; i++) {
+          for (int i = 0; i < this.layer[ebene - 1].length; i++) {
             double deltaGewicht = lernrate * this.layer[ebene - 1][i].getValue() * deltaTerm;
             this.weights[ebene - 1][i][j] += deltaGewicht;
-            System.out.println("Neues Gewicht von [" + (ebene - 1) + "][" + i + "] zu [" + ebene + "][" + j + "] = " + this.weights[ebene - 1][i][j] + " (" + (this.weights[ebene - 1][i][j] - deltaGewicht) + ")");
+            System.out.println("Neues Gewicht von [" + (ebene - 1) + "][" + (i+1) + "] zu [" + ebene + "][" + (j+1) + "] = " + this.weights[ebene - 1][i][j] + " (" + (this.weights[ebene - 1][i][j] - deltaGewicht) + ")");
           }
         }
       }
