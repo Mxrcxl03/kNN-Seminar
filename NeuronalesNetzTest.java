@@ -4,7 +4,7 @@ public class NeuronalesNetzTest {
     String logi = "logi";
     String tanh = "tanh";
 
-    double lernrate = 1;
+    double lernrate = 0.01;
 
     int[] netzkonf1 = {3, 3, 4};
     double[] input1 = {1, 0, 0};
@@ -39,7 +39,7 @@ public class NeuronalesNetzTest {
     n1.computeNN(input1);
     //n1.ausgabeOutput();
 
-    /*n1.backpropagation(inputT1, idealOutT1, lernrate);
+    n1.backpropagation(inputT1, idealOutT1, lernrate);
     n1.ausgabeOutput();
     n1.backpropagation(inputT2, idealOutT2, lernrate);
     n1.ausgabeOutput();
@@ -47,7 +47,7 @@ public class NeuronalesNetzTest {
     n1.ausgabeOutput();
     n1.backpropagation(inputT4, idealOutT4, lernrate);
     n1.ausgabeOutput();
-    n1.backpropagation(inputT5, idealOutT5, lernrate);*/
+    n1.backpropagation(inputT5, idealOutT5, lernrate);
 
     int[] netzkonf2 = {2, 2, 2};
     double[] input2 = {0.7, 0.6};
@@ -72,7 +72,7 @@ public class NeuronalesNetzTest {
     n2.computeNN(input2);
     n2.ausgabeOutput();
 
-    n2.backpropagation(input2, idealOutputI2, lernrate);
+    //n2.backpropagation(input2, idealOutputI2, lernrate);
     //n2.ausgabeOutput();
   }
 }

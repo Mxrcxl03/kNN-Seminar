@@ -119,7 +119,7 @@ public class NeuronalesNetz {
     for (int i = 0; i < gewichte.length; i++) {
       actualConnections += gewichte[i][0].length * gewichte[i].length;
     }
-    System.out.println(actualConnections + " " + expectedConnections);
+    //System.out.println(actualConnections + " " + expectedConnections);
     if (actualConnections != expectedConnections) {
       throw new RuntimeException("Die Anzahl der eingelesenen Gewichte entspricht nicht der erwarteten Anzahl an Verbindungen.");
     }
