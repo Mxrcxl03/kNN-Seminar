@@ -2,6 +2,7 @@ package csv;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,20 +18,19 @@ public class CSVReader {
             System.out.print(layer + " ");
         }
         System.out.println();*/
-        int[][][] dataBlocks = readCSV(path, layerConfig);
+        double[][][] dataBlocks = readCSV(path, layerConfig);
 
         // Iterieren Sie durch die Datenblöcke
-        for (int i = 0; i < dataBlocks.length; i++) {
-            System.out.println("Datenblock " + (i + 1) + ": ");
-            for(int j = 0; j < dataBlocks[0].length; j++){
-                for(int k = 0 ; k < dataBlocks[0][0].length; k++){
-                    System.out.println(dataBlocks[i][j][k]);
-                }
+        for (int a = 0; a < dataBlocks.length; a++){
+            for (int b = 0; b < dataBlocks[a].length; b++){
+                for (int j = 0; j < dataBlocks[a][b].length; j++)
+                {System.out.println(dataBlocks[a][b][j]);}
+
             }
         }
     }
 
-    public static List<Integer> readLayer(String path){
+    public static List<Integer> readLayer(String path) {
         List<Integer> layerConfig = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -38,7 +38,7 @@ public class CSVReader {
             // Lese die erste Zeile mit der Layer-Konfiguration
             String layersInfo = br.readLine();
             String[] layers = layersInfo.split(";");
-            for(int i = 1; i < layers.length; i++) {
+            for (int i = 1; i < layers.length; i++) {
                 layerConfig.add(Integer.parseInt(layers[i]));
             }
             br.close(); // BufferedReader schließen, um Ressourcen freizugeben
@@ -47,53 +47,40 @@ public class CSVReader {
         }
         return layerConfig;
     }
-    public static int[][][] readCSV(String path, List<Integer> layerConfig) {
-        int[][][] dataBlocks = new int[layerConfig.size()][][];
+
+    public static double[][][] readCSV(String path, List<Integer> layerConfig) {
+        double[][][] dataBlocks = new double[layerConfig.size()-1][][]; // Use a list to store data blocks
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
-
-            // Lese die erste Zeile mit der Layer-Konfiguration
-            String tmp = br.readLine();
-            String line = "";
-
-            int[][] currentDataBlock = null;
+            String line = br.readLine();
             int currentBlockRow = 0;
-            int k = 0;
-            while ((line = br.readLine()) != null) {
-                if (line.isEmpty()) {
-                    if (currentDataBlock != null) {
-                        // Erstellen eines neuen zweidimensionalen Arrays, das nur die tatsächlich verwendeten Zeilen enthält
-                        int[][] trimmedDataBlock = new int[currentBlockRow][];
-                        for (int i = 0; i < currentBlockRow; i++) {
-                            trimmedDataBlock[i] = currentDataBlock[i];
-                        }
-                        dataBlocks[k] = trimmedDataBlock;
-                        k++;
-                    }
-                    currentDataBlock = null;
-                    currentBlockRow = 0;
+            int currentBlock = 0;
+            double[][] currentDataBlock = new double[layerConfig.get(currentBlock)+1][layerConfig.get(currentBlock + 1)];
+            while ((line = br.readLine()) != null && layerConfig.get(currentBlock + 1) != null) {
+                String[] weights = line.split(";");
+
+                if (line.equals(";;;")) {
+                    System.out.println("1");
+
+                    dataBlocks[currentBlock] = currentDataBlock;
+                    currentBlockRow = 0; // Reset the row count for the next block
+                    currentBlock++;
+                    currentDataBlock = new double[layerConfig.get(currentBlock)+1][layerConfig.get(currentBlock + 1)];
+                    dataBlocks[currentBlock] = new double[layerConfig.get(currentBlock)+1][layerConfig.get(currentBlock + 1)];
                 } else {
-                    if (currentDataBlock == null) {
-                        currentDataBlock = new int[100][layerConfig.size()]; // Annahme von maximal 100 Zeilen pro Block
+                    // Make sure we don't exceed the limit
+                    double[] rowData = new double[layerConfig.get(currentBlock + 1)];
+                    for (int i = 0; i < weights.length; i++) {
+                        rowData[i] = Double.parseDouble(weights[i]);
                     }
-                    String[] values = line.split(";");
-                    for (int i = 0; i < values.length; i++) {
-                        currentDataBlock[currentBlockRow][i] = Integer.parseInt(values[i]);
-                    }
+                    currentDataBlock[currentBlockRow] = rowData;
                     currentBlockRow++;
                 }
-            }
-            if (currentDataBlock != null) {
-                // Erstellen eines neuen zweidimensionalen Arrays, das nur die tatsächlich verwendeten Zeilen enthält
-                int[][] trimmedDataBlock = new int[currentBlockRow][];
-                for (int i = 0; i < currentBlockRow; i++) {
-                    trimmedDataBlock[i] = currentDataBlock[i];
-                }
-                dataBlocks[k] = trimmedDataBlock;
-                k++;
+
             }
 
-            br.close(); // BufferedReader schließen, um Ressourcen freizugeben
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
