@@ -196,7 +196,7 @@ public class NeuronalesNetz {
 
     // Fehlerbestimmung
     this.error = computeError(idealOutput);
-    System.out.println("Fehlerwert vor Durchlauf: " + this.error);
+    //System.out.println("Fehlerwert vor Durchlauf: " + this.error);
 
     // Backward-Pass
     // Für nur 2 Ebenen
@@ -207,7 +207,7 @@ public class NeuronalesNetz {
         for (int i = 0; i < this.layer[0].length; i++) {
           double deltaGewicht = lernrate * this.layer[0][i].getValue() * delta;
           this.weights[0][i][j] += deltaGewicht;
-          System.out.println("Neues Gewicht von " + i + " zu " + j + " = " + this.weights[0][i][j] + " (" + (this.weights[0][i][j] - deltaGewicht) + ")");
+          //System.out.println("Neues Gewicht von " + i + " zu " + j + " = " + this.weights[0][i][j] + " (" + (this.weights[0][i][j] - deltaGewicht) + ")");
         }
       }
     } else {
@@ -241,7 +241,7 @@ public class NeuronalesNetz {
           for (int i = 0; i < this.layer[ebene - 1].length; i++) {
             double deltaGewicht = lernrate * this.layer[ebene - 1][i].getValue() * deltaTerm;
             this.weights[ebene - 1][i][j] += deltaGewicht;
-            System.out.println("Neues Gewicht von [" + (ebene - 1) + "][" + (i+1) + "] zu [" + ebene + "][" + (j+1) + "] = " + this.weights[ebene - 1][i][j] + " (" + (this.weights[ebene - 1][i][j] - deltaGewicht) + ")");
+            //System.out.println("Neues Gewicht von [" + (ebene - 1) + "][" + (i+1) + "] zu [" + ebene + "][" + (j+1) + "] = " + this.weights[ebene - 1][i][j] + " (" + (this.weights[ebene - 1][i][j] - deltaGewicht) + ")");
           }
         }
       }
