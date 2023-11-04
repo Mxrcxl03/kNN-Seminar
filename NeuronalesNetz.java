@@ -83,9 +83,13 @@ public class NeuronalesNetz {
     this.weights = new double[getLayerCount() - 1][][];
     Random r = new Random();
     for(int i = 0; i < weights.length; i++) {
-      // Initialisierung von Gewichten zwischen allen Neuronen eines Layer[i] (Start = 0)
-      // mit allen Neuronen des nächsten Layers[i+1] -> vollvermaschtes, neuronales Netz
-      this.weights[i] = new double[this.layer[i].length][this.layer[i+1].length -1]; // !!! -1] !!! Warum?
+      if((i + 1) == (getLayerCount() - 1)) {
+        this.weights[i] = new double[this.layer[i].length][this.layer[i+1].length];
+      } else {
+        // Initialisierung von Gewichten zwischen allen Neuronen eines Layer[i] (Start = 0)
+        // mit allen Neuronen des nächsten Layers[i+1] -> vollvermaschtes, neuronales Netz
+        this.weights[i] = new double[this.layer[i].length][this.layer[i+1].length - 1];
+      }
       // j = (von) Neuron auf Layer[i], k = (zu) Neuron auf Layer[i+1]
       for(int j = 0; j < weights[i].length; j++) {
         for(int k = 0; k < weights[i][j].length; k++) {

@@ -13,14 +13,23 @@ public class PerformanceTest2 {
         double[][][] gewichtsdatei2 = {
                 {{-0.1},{0.9}, {0.5}}
         };
+
+        int[] netzkonf3 = {3, 3, 4};
+        double[] input3 = {7, 2, 3};
+
         NeuronalesNetz n1 = new NeuronalesNetz();
-        n1.initNetz(netzkonf2);
-        n1.initGewichte(gewichtsdatei2);
+        n1.initNetz(netzkonf3);
+        //n1.initGewichte(gewichtsdatei2);
 
         /*for (int i = 0; i < netzkonf1[1]; i++) {
             n1.layer[1][i].setActivationFunction(logi);
         }*/
 
-        n1.computeNN(input2);
+        //n1.computeNN(input2);
+        //n1.ausgabeOutput();
+
+        n1.initGewichteRandom();
+        n1.computeNN(input3);
+        n1.ausgabeOutput();
     }
 }
