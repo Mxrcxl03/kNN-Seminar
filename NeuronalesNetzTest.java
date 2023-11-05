@@ -1,3 +1,4 @@
+import java.util.concurrent.ThreadLocalRandom;
 public class NeuronalesNetzTest {
   public static void main(String[] args) {
     String id = "id";
@@ -33,7 +34,10 @@ public class NeuronalesNetzTest {
     double[] inputT5 = {0.1, 1.1, 0};
     double[] idealOutT5 = {0, 0, 0, 1};
 
-    // Feste Lernrate
+    double[][] inputMenge = new double[][]{inputT1, inputT2, inputT3, inputT4, inputT5};
+    double[][] idealMenge = new double[][]{idealOutT1, idealOutT2, idealOutT3, idealOutT4, idealOutT5};
+
+      // Feste Lernrate
     double lernrate = 0.01;
     // Iterationanzahl
     int iterationen = 10000;
@@ -43,6 +47,9 @@ public class NeuronalesNetzTest {
     // Nur ein Trainingsdatensatz für Vergleich der Entwicklung des Fehlers sonst 5 unterschiedliche Werte
     // Ändern durch Austauschen der Parameter T1 -> TX
     for(int i = 0; i < iterationen; i++) {
+      int randomNumber = i; //ThreadLocalRandom.current().nextInt(0,5)
+      randomNumber %= 5;
+     // n1.backpropagation(inputMenge[randomNumber], idealMenge[randomNumber], lernrate);  //zufällige wahl der 5 gewählten inputs
       n1.backpropagation(inputT1, idealOutT1, lernrate);
       //n1.ausgabeOutput();
       errorIteration[i] = n1.computeError(idealOutT1);
