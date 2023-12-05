@@ -1,4 +1,3 @@
-import java.util.concurrent.ThreadLocalRandom;
 public class NeuronalesNetzTest {
   public static void main(String[] args) {
     String id = "id";

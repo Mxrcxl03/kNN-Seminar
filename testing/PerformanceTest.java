@@ -1,7 +1,7 @@
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.time.Duration;
-import java.util.Random;
+
 public class PerformanceTest {
     public static Duration measureCpuTime(Runnable runnable) {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
