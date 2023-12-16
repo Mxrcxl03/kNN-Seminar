@@ -257,6 +257,7 @@ public class NeuronalesNetz {
     for (int i = 0; i < idealOutput.length; i++) {
       err += Math.pow(idealOutput[i] - this.layer[getLayerCount() - 1][i].getValue(), 2);
     }
+    //return err;
     return err * 0.5;
   }
 

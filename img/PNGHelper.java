@@ -12,7 +12,7 @@ public class PNGHelper {
 	public static final int MAX_WIDTH = 64;
 
 	// Bild in ein bitonales (binary) Bild umwandeln mit nur Werten 0 oder 1
-	private static BufferedImage convertToBinary(BufferedImage image) {
+	public static BufferedImage convertToBinary(BufferedImage image) {
 		// Höhe und Breite des Bild auslesen
 		// TODO durch MAXHEIGHT Werte ersetzen?
 		int width = image.getWidth();
@@ -22,14 +22,14 @@ public class PNGHelper {
 		BufferedImage binaryImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
 
 		// Durchlaufe jedes Pixel des Graustufenbildes und Zuweisung eines neuen Wert (0, 1)
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
+		for (int x = 0; x < height; x++) {
+			for (int y = 0; y < width; y++) {
 				// Lese den Graustufenwert des Pixels
-				int grayValue = new Color(image.getRGB(j, i)).getRed();
+				int grayValue = new Color(image.getRGB(y, x)).getRed();
 				// Setze den Farbwert des Pixels im binären Bild basierend ob größer 128 oder kleiner
 				int binaryValue = (grayValue < 128) ? 0 : 255; // 0 für Schwarz, 255 für Weiß
 				int rgb = new Color(binaryValue, binaryValue, binaryValue).getRGB();
-				binaryImage.setRGB(j, i, rgb);
+				binaryImage.setRGB(y, x, rgb);
 			}
 		}
 		return binaryImage;
@@ -38,12 +38,51 @@ public class PNGHelper {
 	// Rasterwerte (Bildwerte) in ein zweidimensionales Array umwandeln
 	public static int[][] pixelValueToArray(Raster raster) {
 		int[][] result = new int[MAX_HEIGHT][MAX_WIDTH];
-		for(int i = 0; i < MAX_HEIGHT; i++) {
-			for (int j = 0; j < MAX_WIDTH; j++) {
-				result[i][j] = raster.getSample(j, i, 0);
+		for(int y = 0; y < MAX_HEIGHT; y++) {
+			for (int x = 0; x < MAX_WIDTH; x++) {
+				result[y][x] = raster.getSample(x, y, 0);
 			}
 		}
 		return result;
+	}
+
+	// Ausgabe der RGB-Werte eines Bildes (Blau 0-7 | Green 8-15 | Red 16-23) einer bestimmten Spalte (Column)
+	public static void printOutRGBValueColumn(BufferedImage image, int x) {
+		for(int y = 0; y < MAX_WIDTH; y++) {
+			int rgb = image.getRGB(x, y);
+			// Maskieren (0xFF) >> 8 = Verschiebung um 8 Bits -> & 0xFF alle anderen Werte 0 setzen ---> Werte zwischen 0 - 255
+			int red = (rgb >> 16) & 0xFF; // Maskieren von Rot in RGB
+			int green = (rgb >> 8) & 0xFF; // Maskieren von Grün in RGB
+			int blue = rgb & 0xFF; // Maskieren von Blau in RGB
+			System.out.println(red + " - " + green + " - " + blue);
+		}
+		System.out.println();
+	}
+
+	// Ausgabe der RGB-Werte eines Bildes (Blau 0-7 | Green 8-15 | Red 16-23) einer bestimmten Zeile (Row)
+	public static void printOutRGBValueRow(BufferedImage image, int y) {
+		for(int x = 0; x < MAX_WIDTH; x++) {
+			int rgb = image.getRGB(x, y);
+			int red = (rgb >> 16) & 0xFF; // Maskieren von Rot in RGB
+			int green = (rgb >> 8) & 0xFF; // Maskieren von Grün in RGB
+			int blue = rgb & 0xFF; // Maskieren von Blau in RGB
+			System.out.println(red + " - " + green + " - " + blue);
+		}
+		System.out.println();
+	}
+
+	// Ausgabe der RGB-Werte eines Bildes (Blau 0-7 | Green 8-15 | Red 16-23)
+	public static void printOutRGBValueAll(BufferedImage image) {
+		for(int y = 0; y < MAX_HEIGHT; y++) {
+			for(int x = 0; x < MAX_WIDTH; x++) {
+				int rgb = image.getRGB(x, y);
+				int red = (rgb >> 16) & 0xFF; // Maskieren von Rot in RGB
+				int green = (rgb >> 8) & 0xFF; // Maskieren von Grün in RGB
+				int blue = rgb & 0xFF; // Maskieren von Blau in RGB
+				System.out.println(red + " - " + green + " - " + blue);
+			}
+		}
+		System.out.println();
 	}
 
 	// Ausgabe eines kompletten PixelArrays
@@ -70,15 +109,6 @@ public class PNGHelper {
 		System.out.println();
 	}
 
-	// Ausgabe eines Raster auf dem Bildschirm - 0 = Schwarz - 1 = Weiß
-	public static void printOutPixelValues(Raster raster) {
-		for(int i = 0; i < MAX_HEIGHT; i++) {
-			for (int j = 0; j < MAX_WIDTH; j++) {
-				System.out.println(raster.getSample(j, i, 0) + " - Pixel: (" + i + " | " + j + ")");
-			}
-		}
-	}
-
 	public static void main(String[] args) {
 		try {
 			String filepath1 = "img/number1_64x64.png";
@@ -96,11 +126,15 @@ public class PNGHelper {
 			int[][] arr1 = pixelValueToArray(rasterIMG1);
 			int[][] arr2 = pixelValueToArray(rasterIMG2);
 
-			printOutArray(arr1);
-			printOutArray(arr2);
+			//printOutArray(arr1);
+			//printOutArray(arr2);
 
 			//printOutArrayWithRaster(arr1);
 			//printOutArrayWithRaster(arr2);
+
+			//printOutRGBValueAll(image1);
+			//printOutRGBValueAll(binaryImage1);
+			printOutRGBValueRow(binaryImage1, 23);
 
 			//ImageIO.write(binaryImage, "png", new File("img/schwarz_weiss_64x64.png")); // Abspeichern in Unterordner
 		} catch (FileNotFoundException file) {
