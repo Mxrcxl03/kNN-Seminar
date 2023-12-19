@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>324</x>
-      <y>423</y>
+      <x>855</x>
+      <y>432</y>
       <w>270</w>
       <h>225</h>
     </coordinates>
@@ -30,8 +30,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>153</x>
-      <y>783</y>
+      <x>684</x>
+      <y>792</y>
       <w>198</w>
       <h>144</h>
     </coordinates>
@@ -49,8 +49,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>522</x>
-      <y>783</y>
+      <x>1053</x>
+      <y>792</y>
       <w>153</w>
       <h>144</h>
     </coordinates>
@@ -67,10 +67,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>252</x>
-      <y>18</y>
+      <x>783</x>
+      <y>0</y>
       <w>459</w>
-      <h>351</h>
+      <h>369</h>
     </coordinates>
     <panel_attributes>NeuronalesNetz
 -
@@ -99,14 +99,15 @@
 
 // Hilfsmethoden
 + getLayerCount(): int
-+ ausgabeOutput(): void</panel_attributes>
++ ausgabeOutput(): void
++ getOutputAsDoubleArray(): double[ ]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>360</x>
-      <y>783</y>
+      <x>891</x>
+      <y>792</y>
       <w>153</w>
       <h>144</h>
     </coordinates>
@@ -123,19 +124,19 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
+      <x>981</x>
       <y>360</y>
       <w>27</w>
-      <h>81</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>261</x>
-      <y>639</y>
+      <x>792</x>
+      <y>648</y>
       <w>126</w>
       <h>162</h>
     </coordinates>
@@ -145,8 +146,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>414</x>
-      <y>639</y>
+      <x>945</x>
+      <y>648</y>
       <w>27</w>
       <h>162</h>
     </coordinates>
@@ -156,8 +157,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>477</x>
-      <y>639</y>
+      <x>1008</x>
+      <y>648</y>
       <w>90</w>
       <h>162</h>
     </coordinates>
@@ -167,8 +168,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>684</x>
-      <y>783</y>
+      <x>1215</x>
+      <y>792</y>
       <w>144</w>
       <h>144</h>
     </coordinates>
@@ -187,12 +188,74 @@ _+ getBiasValue: double_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>549</x>
-      <y>639</y>
+      <x>1080</x>
+      <y>648</y>
       <w>180</w>
       <h>162</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;180.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>171</x>
+      <y>702</y>
+      <w>360</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>PNGHelper
+-
+_+ MAX_HEIGHT: int = 32_
+_+ MAX_WIDTH: int = 32_
+-
+_+ convertToBinary(image: BufferedImage): BufferedImage_
+_+ pixelValueToArray(bildRaster: Raster): int[ ][ ]_
+_+ convertPixelArray(pixelArray: int[ ][ ]): double[ ]_
+_+ printOutRGBValue(image: BufferedImage): void_
+_+ printOutArray(pixelArray: int[ ][ ]): void_
+_+ printOutArrayWithRaster(pixelArray: int[ ][ ]): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>171</x>
+      <y>477</y>
+      <w>360</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>Bilderkennung
+-
++ runTraining(iteration: int, n1: NeuronalesNetz): void
++ runTesting(iteration: int, n1: NeuronalesNetz): void
+
++ getTrainingInput(counter: int): double[ ]
++ getIdealOutput(counter: int): double[ ]
++ getImage(filepath: String): double[ ]
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>477</x>
+      <y>360</y>
+      <w>369</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>390.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>333</x>
+      <y>585</y>
+      <w>27</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
   </element>
 </diagram>
