@@ -4,11 +4,14 @@ import java.awt.image.Raster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class BilderkennungTest {
 	public static void main(String[] args) {
 		Bilderkennung bild = new Bilderkennung();
-		int[] netzkonf1 = {1024, 16, 16, 10};
+		//int[] netzkonf1 = {1024, 16, 16, 10};
+		//int[] netzkonf1 = {1024, 22, 10};
+		int[] netzkonf1 = {1024, 16, 10};
 		NeuronalesNetz n1 = new NeuronalesNetz();
 		n1.initNetz(netzkonf1);
 
@@ -22,13 +25,27 @@ public class BilderkennungTest {
 
 		for (int i = 0; i < n1.weights[0][0].length; i++) {
 			n1.layer[1][i].setActivationFunction("tanh");
-			n1.layer[2][i].setActivationFunction("tanh");
+			//n1.layer[2][i].setActivationFunction("tanh");
 		}
 
-		try {
-			String filepath1 = "img/testdata/04.png";
-			//int[] ideal0 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			double[] ideal1 = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+		bild.runTraining(2500, n1, 0.01);
+		System.out.println("--------------------------------------");
+		//System.out.println("Error 1: " + n1.computeError(bild.getIdealOutput(1)));
+		bild.runTestingSN(1, n1);
+		//System.out.println("Error 2: " + n1.computeError(bild.getIdealOutput(1)));
+		System.out.println("--------------------------------------");
+		double[] output1 = n1.getOutputAsDoubleArray();
+
+		bild.printOutputToNumber(output1);
+		bild.printOutWinner(output1);
+		bild.printOutTopThree(output1);
+		System.out.println("--------------------------------------");
+		//bild.runTestingAN(n1);
+
+		/*try {
+			//String filepath1 = "img/trainingdata/11.png";
+			String filepath1 = "img/testdata/14.png";
+			double[] ideal1 = bild.getIdealOutput(1);
 
 			// Einlesen des Bilds
 			BufferedImage image1 = ImageIO.read(new File(filepath1));
@@ -39,15 +56,7 @@ public class BilderkennungTest {
 			int[][] arr1 = PNGHelper.pixelValueToArray(rasterIMG1);
 			double[] input1 = PNGHelper.convertPixelArray(arr1);
 
-			bild.runTraining(1000, n1);
-			System.out.println("--------------------------------------");
-			n1.computeNN(input1);
-			double[] output = n1.getOutputAsDoubleArray();
-			int x = 0;
-			for (double j : output) {
-				System.out.println(j + "\t\t\t-\t\t" + x);
-				x++;
-			}
+			//PNGHelper.printOutArrayWithRaster(arr1);
 
 			//printOutArray(arr1);
 			//printOutArrayWithRaster(arr1);
@@ -62,27 +71,6 @@ public class BilderkennungTest {
 		} catch (IOException e) {
 			// Fehler beim Einlesen des Bilds
 			e.printStackTrace();
-		}
+		}*/
 	}
-
-	/*// Ausführung von einem Trainingsdurchlauf
-	public static void runTraining(int iteration, double[] input, double[] ideal, NeuronalesNetz n1) {
-		// Error-Array mit der Entwicklung des Fehlers auf die Werte
-		double[] errorIteration = new double[iteration];
-		// Counter zur Auswahl der unterschiedlichen Trainingsdaten in einer Reihenfolge
-		int counter = 0;
-		for(int i = 0; i < iteration; i++) {
-			n1.backpropagation(input, ideal, lernrate);
-			System.out.println("Durchgang: " + (i + 1));
-			n1.ausgabeOutput();
-			errorIteration[i] = n1.computeError(ideal);
-
-
-			if (counter == 30) {
-				counter = 0;
-			} else {
-				counter++;
-			}
-		}
-	}*/
 }

@@ -88,4 +88,20 @@ public class PNGHelper extends Bilderkennung {
 		}
 		System.out.println();
 	}
+
+	/**
+	 * Hilfsmethode zum Runden einer Zahl mit Angabe der gewünschten Stelligkeit.
+	 *
+	 * @param wert Zahlenwert.
+	 * @param nachkommastellen Anzahl der Nachkommastellen.
+	 * @return Gerundeter Zahlenwerte auf [nachkommastellen] Nachkommastellen.
+	 */
+	public static double rundeZahl(double wert, int nachkommastellen) {
+		int stellen = (int) Math.pow(10, nachkommastellen);
+		wert *= stellen;
+		wert = Math.round(wert);
+		wert /= stellen;
+		return wert;
+	}
+
 }
