@@ -40,6 +40,7 @@ public class BilderkennungTest {
 		bild.printOutWinner(output1);
 		bild.printOutTopThree(output1);
 		System.out.println("--------------------------------------");
+		//bild.runTestingSN(4, n1);
 		//bild.runTestingAN(n1);
 
 		/*try {

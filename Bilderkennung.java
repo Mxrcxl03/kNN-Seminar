@@ -40,7 +40,7 @@ public class Bilderkennung extends NeuronalesNetz {
 	public void runTestingSN(int ziffer, NeuronalesNetz n1) {
 		double[] ideal = getIdealOutput(ziffer);
 		double[] input = getTestInput(ziffer);
-		n1.backpropagation(input, ideal, 0.01);
+		//n1.backpropagation(input, ideal, 0.01);
 		//n1.backpropagation(input, ideal, 0.01); //Doppelte Genauigkeit
 		n1.computeNN(input);
 		printOutWinner(n1.getOutputAsDoubleArray());
@@ -48,14 +48,13 @@ public class Bilderkennung extends NeuronalesNetz {
 		//printOutputToNumber(n1.getOutputAsDoubleArray());
 	}
 
-	//TODO nötig?
 	public void runTestingAN(NeuronalesNetz n1) {
 		for (int i = 0; i < 10; i++) {
 			double[] ideal = getIdealOutput(i);
 			double[] input = getTestInput(i);
 			n1.backpropagation(input, ideal, 0.01);
-			n1.backpropagation(input, ideal, 0.01);
-			n1.backpropagation(input, ideal, 0.01);
+			//n1.backpropagation(input, ideal, 0.01);
+			//n1.backpropagation(input, ideal, 0.01);
 			n1.computeNN(input);
 			printOutWinner(n1.getOutputAsDoubleArray());
 		}
